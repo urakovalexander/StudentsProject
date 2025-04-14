@@ -9,4 +9,6 @@ interface StudentRepositoryInterface
     public function findOneByLogin(string $login): ?Student;
 
     public function save(Student $student): void;
+
+    public function findAllWithoutGroup(): array;
 }

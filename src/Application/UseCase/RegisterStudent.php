@@ -2,8 +2,11 @@
 
 namespace App\Application\UseCase;
 
+use App\Application\Domain\Entity\StudentDto;
+use App\Application\Exception\LoginAlreadyExistsException;
 use App\Application\Repository\StudentRepositoryInterface;
 use App\Infrastructure\Entity\Student;
+use App\Infrastructure\Mapper\StudentMapper;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class RegisterStudent
@@ -13,12 +16,12 @@ class RegisterStudent
         private UserPasswordHasherInterface $passwordHasher
     ) {}
 
-    public function handle(string $login, string $name, string $password): Student
+    public function handle(string $login, string $name, string $password): StudentDto
     {
-        $existing = $studentRepository->findOneByLogin($login);
+        $existing = $this->studentRepository->findOneByLogin($login);
 
         if ($existing !== null) {
-            throw new \InvalidArgumentException("Login '$login' is already in use.");
+            throw new LoginAlreadyExistsException($login);
         }
 
         $student = new Student();
@@ -30,6 +33,6 @@ class RegisterStudent
 
         $this->studentRepository->save($student);
 
-        return $student;
+        return StudentMapper::toDto($student);
     }
 }

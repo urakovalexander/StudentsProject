@@ -16,8 +16,9 @@ class Student implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private string $name;
 
-    #[ORM\Column]
-    private int $groupId;
+    #[ORM\Column(nullable: true)]
+    private ?int $groupId = null;
+
 
     #[ORM\Column(type: 'string')]
     private string $password;

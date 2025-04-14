@@ -26,4 +26,9 @@ class StudentRepository implements StudentRepositoryInterface
         $this->entityManager->persist($student);
         $this->entityManager->flush();
     }
+
+    public function findAllWithoutGroup(): array
+    {
+        return $this->repository->findBy(['groupId' => null]);
+    }
 }

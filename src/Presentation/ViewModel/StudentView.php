@@ -1,28 +1,21 @@
 <?php
+
 namespace App\Presentation\ViewModel;
 
-use App\Infrastructure\Entity\Student;
-
-class StudentView
+final class StudentView implements ViewInterface
 {
     public function __construct(
-        public int $id,
-        public string $name,
+        private int $id,
+        private string $name,
+        private string $login,
     ) {}
-
-    public static function fromEntity(Student $student): self
-    {
-        return new self(
-            id: $student->getId(),
-            name: $student->getName()
-        );
-    }
 
     public function toArray(): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'login' => $this->login,
         ];
     }
 }
